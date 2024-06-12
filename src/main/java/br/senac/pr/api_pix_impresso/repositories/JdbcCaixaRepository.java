@@ -38,14 +38,17 @@ public class JdbcCaixaRepository implements CaixaRepository {
     params.put("localizacao", caixa.getLocalizacao());
     params.put("saldo", caixa.getSaldo());
 
+    // Executar a instrução SQL para criar um novo registro
     namedParameterJdbcTemplate.update(sql,
         new MapSqlParameterSource(params),
         generatedKeyHolder);
 
+    // {ID: 1, localizacao: "Centro", saldo: 0.0}
     var returnedKeys = generatedKeyHolder.getKeys();
     if (returnedKeys == null) {
       throw new Error("Erro ao salvar o caixa");
     }
+    // Obtem do registro inserido, o ID gerado pelo banco
     Integer id = (Integer) returnedKeys.get("ID");
 
     return id;
