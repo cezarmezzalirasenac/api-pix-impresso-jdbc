@@ -56,14 +56,33 @@ public class JdbcCaixaRepository implements CaixaRepository {
 
   @Override
   public int update(Caixa caixa) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'update'");
+    // SQL placeholders can use named parameters instead of "?".
+    String sql = """
+          UPDATE CAIXAS SET LOCALIZACAO = :localizacao, SALDO = :saldo
+        """;
+
+    Map<String, Object> params = new HashMap<>();
+    params.put("localizacao", caixa.getLocalizacao());
+    params.put("saldo", caixa.getSaldo());
+
+    // Executar a instrução SQL para criar um novo registro
+    namedParameterJdbcTemplate.update(sql,
+        new MapSqlParameterSource(params));
+
+    return 1;
   }
 
   @Override
   public Caixa findById(Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    String sql = "SELECT ID, LOCALIZACAO, SALDO FROM CAIXAS WHERE ID = ?";
+
+    Object[] args = new Object[] { id };
+    int[] argTypes = { java.sql.Types.INTEGER };
+    return jdbcTemplate.queryForObject(sql, args, argTypes, (rs, rowNum) -> {
+      return new Caixa(rs.getLong("ID"),
+          rs.getString("LOCALIZACAO"),
+          rs.getDouble("SALDO"));
+    });
   }
 
   @Override

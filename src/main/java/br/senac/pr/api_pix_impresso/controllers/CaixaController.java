@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.senac.pr.api_pix_impresso.dtos.CreateCaixaDto;
 import br.senac.pr.api_pix_impresso.dtos.UpdateCaixaDto;
+import br.senac.pr.api_pix_impresso.dtos.UpdateSaldoCaixaDto;
 import br.senac.pr.api_pix_impresso.models.Caixa;
 import br.senac.pr.api_pix_impresso.services.CaixaService;
 
@@ -46,17 +50,21 @@ public class CaixaController {
 
   // PATCH - Atualização parcial
   @PatchMapping("/{id}")
-  public Caixa updateCaixa(@RequestBody UpdateCaixaDto dto, 
-                           @RequestParam Long id) {
-    // Cria um objeto do modelo 
-    Caixa caixa = new Caixa(id, dto.getLocalizacao(), dto.getSaldo());
+  public Caixa updateSaldoCaixa(@RequestBody UpdateSaldoCaixaDto dto,
+      @PathVariable Long id) {
     // Atualizar o registro no banco
-    caixaService.update(caixa);
     // retorna o objeto caixa
-    return caixa;
+    return caixaService.updateSaldoCaixa(id, dto.getSaldo());
   }
 
   // PUT - Atualização completa
+  @PutMapping("/{id}")
+  public Caixa updateCaixa(@RequestBody UpdateCaixaDto dto,
+      @PathVariable Long id) {
+    // Atualizar o registro no banco
+    // retorna o objeto caixa
+    throw new Error("Unimplemented method 'updateCaixa'");
+  }
 
   // DELETE - Exclusão
 
