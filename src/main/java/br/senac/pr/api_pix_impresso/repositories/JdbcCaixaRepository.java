@@ -59,15 +59,16 @@ public class JdbcCaixaRepository implements CaixaRepository {
     // SQL placeholders can use named parameters instead of "?".
     String sql = """
           UPDATE CAIXAS SET LOCALIZACAO = :localizacao, SALDO = :saldo
+          WHERE ID = :id
         """;
 
     Map<String, Object> params = new HashMap<>();
     params.put("localizacao", caixa.getLocalizacao());
     params.put("saldo", caixa.getSaldo());
+    params.put("id", caixa.getId());
 
     // Executar a instrução SQL para criar um novo registro
-    namedParameterJdbcTemplate.update(sql,
-        new MapSqlParameterSource(params));
+    namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(params));
 
     return 1;
   }
