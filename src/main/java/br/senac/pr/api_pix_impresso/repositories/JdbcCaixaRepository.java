@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.senac.pr.api_pix_impresso.models.Caixa;
 
 @Repository
-public class JdbcCaixaRepository implements CaixaRepository {
+public class JdbcCaixaRepository implements BaseJdbcRepository<Caixa, Long> {
 
   private JdbcTemplate jdbcTemplate;
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
