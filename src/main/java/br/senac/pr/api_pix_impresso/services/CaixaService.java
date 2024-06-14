@@ -48,7 +48,11 @@ public class CaixaService {
   }
 
   public Caixa findById(Long id) {
-    return caixaRepository.findById(id);
+    return caixaRepository.findById(id).orElse(null);
   }
 
+
+  public void deleteById(Long id) {
+    caixaRepository.deleteById(id);
+  }
 }
