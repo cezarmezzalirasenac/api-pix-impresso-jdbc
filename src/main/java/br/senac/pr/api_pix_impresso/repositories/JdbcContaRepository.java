@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
-import br.senac.pr.api_pix_impresso.models.Caixa;
 import br.senac.pr.api_pix_impresso.models.Conta;
 
 @Repository
@@ -72,15 +72,62 @@ public class JdbcContaRepository implements BaseJdbcRepository<Conta, Long> {
   }
 
   @Override
-  public int update(Conta object) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'update'");
+  public void update(Conta object) {
+    String sql = """
+        update public.contas
+             set agencia = :agencia, numero_conta = :numero_conta,
+             digito_verificador = :digito_verificador,
+             nome = :nome, cpf = :cpf,
+             tipo_conta = :tipo_conta,
+             numero_cartao = :numero_cartao,
+             senha = :senha, saldo = :saldo
+        where id = :id
+         """;
+
+    Map<String, Object> params = new HashMap<>();
+    params.put("id", object.getId());
+    params.put("agencia", object.getAgencia());
+    params.put("numero_conta", object.getNumeroConta());
+    params.put("digito_verificador", object.getDigitoVerificador());
+    params.put("nome", object.getNome());
+    params.put("cpf", object.getCpf());
+    params.put("tipo_conta", object.getTipoConta());
+    params.put("numero_cartao", object.getNumeroCartao());
+    params.put("senha", object.getSenha());
+    params.put("saldo", object.getSaldo());
+
+    // Executar a instrução SQL para criar um novo registro
+    namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(params));
   }
 
   @Override
   public Optional<Conta> findById(Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    String sql = """
+         SELECT id, agencia, numero_conta, digito_verificador,
+                nome, cpf, tipo_conta,
+                numero_cartao, senha, saldo FROM contas WHERE ID = ?
+        """;
+
+    Object[] args = new Object[] { id };
+    int[] argTypes = { java.sql.Types.INTEGER };
+    Conta conta = null;
+    try {
+      conta = jdbcTemplate.queryForObject(sql, args, argTypes, (rs, rowNum) -> {
+        return new Conta(rs.getLong("id"),
+            rs.getLong("agencia"),
+            rs.getLong("numero_conta"),
+            rs.getLong("digito_verificador"),
+            rs.getString("nome"),
+            rs.getString("cpf"),
+            rs.getLong("tipo_conta"),
+            rs.getString("numero_cartao"),
+            rs.getString("senha"),
+            rs.getDouble("SALDO"));
+      });
+      return Optional.of(conta);
+    } catch (EmptyResultDataAccessException e) {
+      return Optional.ofNullable(conta);
+    }
   }
 
   @Override
