@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,6 @@ import br.senac.pr.api_pix_impresso.dtos.DetailContaDto;
 import br.senac.pr.api_pix_impresso.dtos.UpdateContaCadastroDto;
 import br.senac.pr.api_pix_impresso.dtos.UpdateContaSaldoDto;
 import br.senac.pr.api_pix_impresso.services.impl.ContaServiceImpl;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/contas")
@@ -46,13 +46,13 @@ public class ContaController {
 
   // GET - Lista uma conta por ID
   @GetMapping("/{id}")
-  public DetailContaDto getContas(@PathParam("id") Long id) {
+  public DetailContaDto getContas(@PathVariable("id") Long id) {
     return contaService.findById(id);
   }
 
   // PATCH - Atualiza parcialmente uma conta
   @PatchMapping("/{id}/updateSaldo")
-  public DetailContaDto updateSaldo(@PathParam("id") Long id,
+  public DetailContaDto updateSaldo(@PathVariable("id") Long id,
       @RequestBody UpdateContaSaldoDto dto) {
     DetailContaDto conta = contaService.updateSaldo(id, dto);
     return conta;
@@ -60,7 +60,7 @@ public class ContaController {
 
   // PATCH - Atualiza parcialmente uma conta
   @PatchMapping("/{id}/updateCadastro")
-  public ResponseEntity<DetailContaDto> updateCadastro(@PathParam("id") Long id,
+  public ResponseEntity<DetailContaDto> updateCadastro(@PathVariable("id") Long id,
       @RequestBody UpdateContaCadastroDto dto) {
     DetailContaDto conta = contaService.updateCadastro(id, dto);
     return ResponseEntity.ok().body(conta);
