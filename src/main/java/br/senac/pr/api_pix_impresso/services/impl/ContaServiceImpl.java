@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import br.senac.pr.api_pix_impresso.dtos.CreateContaDto;
 import br.senac.pr.api_pix_impresso.dtos.DetailContaDto;
+import br.senac.pr.api_pix_impresso.dtos.UpdateContaCadastroDto;
 import br.senac.pr.api_pix_impresso.dtos.UpdateContaDto;
+import br.senac.pr.api_pix_impresso.dtos.UpdateContaSaldoDto;
 import br.senac.pr.api_pix_impresso.mappers.ContaToDetailContaMapper;
 import br.senac.pr.api_pix_impresso.mappers.CreateContaToContaMapper;
 import br.senac.pr.api_pix_impresso.models.Conta;
@@ -61,4 +63,32 @@ public class ContaServiceImpl implements ContaService {
     throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
   }
 
+  public DetailContaDto updateCadastro(Long id,
+      UpdateContaCadastroDto dto) {
+
+    Conta conta = contaRepository.findById(id).orElse(null);
+
+    if (conta == null) {
+      throw new RuntimeException("Conta não encontrada");
+    }
+
+    conta.setNome(dto.getNome());
+    conta.setCpf(dto.getCpf());
+    conta.setTipoConta(dto.getTipoConta());
+
+    contaRepository.update(conta);
+
+    return contaToDetailContaMapper.apply(conta);
+  }
+
+  public DetailContaDto updateSaldo(Long id,
+      UpdateContaSaldoDto dto) {
+    Conta conta = contaRepository.findById(id).orElse(null);
+    if (conta == null) {
+      throw new RuntimeException("Conta não encontrada");
+    }
+    conta.setSaldo(dto.getSaldo());
+    contaRepository.update(conta);
+    return contaToDetailContaMapper.apply(conta);
+  }
 }

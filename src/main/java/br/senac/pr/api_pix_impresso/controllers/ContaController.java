@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.senac.pr.api_pix_impresso.dtos.CreateContaDto;
 import br.senac.pr.api_pix_impresso.dtos.DetailContaDto;
+import br.senac.pr.api_pix_impresso.dtos.UpdateContaCadastroDto;
+import br.senac.pr.api_pix_impresso.dtos.UpdateContaSaldoDto;
 import br.senac.pr.api_pix_impresso.services.impl.ContaServiceImpl;
 import jakarta.websocket.server.PathParam;
 
@@ -46,7 +49,23 @@ public class ContaController {
   public DetailContaDto getContas(@PathParam("id") Long id) {
     return contaService.findById(id);
   }
-  // PUT - Atualiza uma conta
+
   // PATCH - Atualiza parcialmente uma conta
+  @PatchMapping("/{id}/updateSaldo")
+  public DetailContaDto updateSaldo(@PathParam("id") Long id,
+      @RequestBody UpdateContaSaldoDto dto) {
+    DetailContaDto conta = contaService.updateSaldo(id, dto);
+    return conta;
+  }
+
+  // PATCH - Atualiza parcialmente uma conta
+  @PatchMapping("/{id}/updateCadastro")
+  public ResponseEntity<DetailContaDto> updateCadastro(@PathParam("id") Long id,
+      @RequestBody UpdateContaCadastroDto dto) {
+    DetailContaDto conta = contaService.updateCadastro(id, dto);
+    return ResponseEntity.ok().body(conta);
+  }
+  // PUT - Atualiza uma conta
+
   // DELETE - Deleta uma conta
 }
