@@ -13,16 +13,16 @@ import br.senac.pr.api_pix_impresso.dtos.UpdateContaSaldoDto;
 import br.senac.pr.api_pix_impresso.mappers.ContaToDetailContaMapper;
 import br.senac.pr.api_pix_impresso.mappers.CreateContaToContaMapper;
 import br.senac.pr.api_pix_impresso.models.Conta;
-import br.senac.pr.api_pix_impresso.repositories.JdbcContaRepository;
+import br.senac.pr.api_pix_impresso.repositories.JdbcDataContaRepository;
 import br.senac.pr.api_pix_impresso.services.ContaService;
 
 @Service
 public class ContaServiceImpl implements ContaService {
-  private final JdbcContaRepository contaRepository;
+  private final JdbcDataContaRepository contaRepository;
   private final CreateContaToContaMapper createContaToContaMapper;
   private final ContaToDetailContaMapper contaToDetailContaMapper;
 
-  public ContaServiceImpl(JdbcContaRepository contaRepository,
+  public ContaServiceImpl(JdbcDataContaRepository contaRepository,
       CreateContaToContaMapper createContaToContaMapper,
       ContaToDetailContaMapper contaToDetailContaMapper) {
     this.contaRepository = contaRepository;
@@ -48,7 +48,12 @@ public class ContaServiceImpl implements ContaService {
 
   @Override
   public DetailContaDto findById(Long id) {
-    return contaToDetailContaMapper.apply(contaRepository.findById(id).orElse(null));
+
+    var conta = contaRepository.findById(id).orElse(null);
+    if (conta == null) {
+      return null;
+    }
+    return contaToDetailContaMapper.apply(conta);
   }
 
   @Override
