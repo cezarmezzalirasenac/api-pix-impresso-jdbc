@@ -23,14 +23,14 @@ import br.senac.pr.api_pix_impresso.mappers.ContaRowMapper;
 import br.senac.pr.api_pix_impresso.models.Conta;
 
 @Repository
-public class JdbcDataContaRepository implements BaseJdbcRepository<Conta, Long> {
+public class JdbcContaRepository implements BaseJdbcRepository<Conta, Long> {
 
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
   private final JdbcTemplate jdbcTemplate;
   private final SimpleJdbcInsert simpleJdbcInsert;
   private final RowMapper<Conta> contaRowMapper;
 
-  public JdbcDataContaRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
+  public JdbcContaRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
       JdbcTemplate jdbcTemplate) {
     this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     this.jdbcTemplate = jdbcTemplate;
