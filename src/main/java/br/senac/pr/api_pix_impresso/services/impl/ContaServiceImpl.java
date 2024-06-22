@@ -70,9 +70,9 @@ public class ContaServiceImpl implements ContaService {
 
   public DetailContaDto updateCadastro(Long id,
       UpdateContaCadastroDto dto) {
-
+    // Busca a conta
     Conta conta = contaRepository.findById(id).orElse(null);
-
+    // Valida se a conta existe
     if (conta == null) {
       throw new RuntimeException("Conta não encontrada");
     }

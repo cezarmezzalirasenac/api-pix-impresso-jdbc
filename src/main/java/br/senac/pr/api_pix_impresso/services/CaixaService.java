@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.senac.pr.api_pix_impresso.models.Caixa;
 import br.senac.pr.api_pix_impresso.repositories.JdbcCaixaRepository;
+import br.senac.pr.api_pix_impresso.shared.services.BaseService;
 
 @Service
 public class CaixaService implements BaseService<Caixa, Long> {

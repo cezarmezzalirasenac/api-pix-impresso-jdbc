@@ -30,8 +30,6 @@ public class ContaController {
   // POST - Cria uma nova conta
   @PostMapping("")
   public ResponseEntity<DetailContaDto> createConta(@RequestBody CreateContaDto dto) {
-    // Criar um objeto da classe Conta
-
     // Salvar no banco
     var conta = contaService.save(dto);
     // retornar o objeto conta o id
