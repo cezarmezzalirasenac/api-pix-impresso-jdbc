@@ -27,6 +27,7 @@ public class TransacaoControllerIntegrationTest {
   // deve criar uma transação com latitude e longitude
   @Test
   public void shouldCreateTransacaoWithLatitudeAndLogitude() {
+    // given - dado o objeto de criação da transação
     var transacao = new CreateTransacaoDto(Long.valueOf(1),
         Long.valueOf(1),
         "D",
@@ -34,13 +35,19 @@ public class TransacaoControllerIntegrationTest {
         -26.529,
         -56.2341);
 
+    // when - quando for chamada a rota de criação da transação
     Transacao transacaoCreated = this.testRestTemplate
         .postForEntity("http://localhost:" + port + "/transacoes",
             transacao,
             Transacao.class)
         .getBody();
 
+    // then - então deve validar os resultados
+    // EXPECTATIVAS (EXPECTATIONS)
+    // afirmo que o objeto de transação não é nulo
     assertTrue(transacaoCreated != null);
+    // afirmo que o objeto de transação criado
+    // tem o mesmo valor que o objeto de transação passado (given)
     assertTrue(transacaoCreated.getValor().equals(transacao.valor()));
     assertTrue(transacaoCreated.getLatitude().equals(transacao.latitude()));
     assertTrue(transacaoCreated.getLongitude().equals(transacao.longitude()));
