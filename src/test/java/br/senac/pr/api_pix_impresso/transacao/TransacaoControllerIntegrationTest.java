@@ -46,7 +46,7 @@ public class TransacaoControllerIntegrationTest {
     // EXPECTATIVAS (EXPECTATIONS)
     // afirmo que o objeto de transação não é nulo
     assertTrue(transacaoCreated != null);
-    // afirmo que o objeto de transação criado
+    // afirmo (assert) que o objeto de transação criado
     // tem o mesmo valor que o objeto de transação passado (given)
     assertTrue(transacaoCreated.getValor().equals(transacao.valor()));
     assertTrue(transacaoCreated.getLatitude().equals(transacao.latitude()));
