@@ -36,11 +36,11 @@ public class TransacaoControllerIntegrationTest {
         -56.2341);
 
     // when - quando for chamada a rota de criação da transação
-    Transacao transacaoCreated = this.testRestTemplate
+    ResponseEntity<Transacao> response = this.testRestTemplate
         .postForEntity("http://localhost:" + port + "/transacoes",
             transacao,
-            Transacao.class)
-        .getBody();
+            Transacao.class);
+    var transacaoCreated = response.getBody();
 
     // then - então deve validar os resultados
     // EXPECTATIVAS (EXPECTATIONS)
