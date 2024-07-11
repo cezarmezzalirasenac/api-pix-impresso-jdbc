@@ -19,11 +19,12 @@ public class Transacao {
 
   public Transacao(Long caixaId, Long contaId,
       char tipoTransacao, Double valor,
+      LocalDateTime dataHora,
       Double latitude,
       Double longitude) {
     this.caixaId = caixaId;
     this.contaId = contaId;
-    this.dataHora = LocalDateTime.now();
+    this.dataHora = dataHora;
     this.tipoTransacao = tipoTransacao;
     this.valor = valor;
     this.latitude = latitude;

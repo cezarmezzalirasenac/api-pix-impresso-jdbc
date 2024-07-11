@@ -17,6 +17,7 @@ public class CreateTransacaoToTransacaoMapper implements Function<CreateTransaca
         t.contaId(),
         t.tipoTransacao().charAt(0),
         t.valor(),
+        null,
         t.latitude(),
         t.longitude());
   }

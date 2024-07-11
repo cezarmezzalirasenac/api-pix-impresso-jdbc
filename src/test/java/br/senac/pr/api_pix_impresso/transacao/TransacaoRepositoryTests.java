@@ -1,5 +1,7 @@
 package br.senac.pr.api_pix_impresso.transacao;
 
+import java.time.LocalDateTime;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class TransacaoRepositoryTests {
 
     // given
     // dado uma nova transacao
-    Transacao transacao = new Transacao(1L, 1L, 'D', 1000.00, -26.529, -56.2341);
+    Transacao transacao = new Transacao(1L, 1L, 'D', 1000.00, LocalDateTime.now(), -26.529, -56.2341);
 
     // when
     // quando essa transacao for inserida ou salva no banco
